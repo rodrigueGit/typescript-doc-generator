@@ -3,14 +3,8 @@ name: Generate and Deploy Documentation
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - 'docs/**'
-      - '.github/workflows/documentation.yml'
   pull_request:
     branches: [ "main" ]
-    paths:
-      - 'docs/**'
-      - '.github/workflows/documentation.yml'
 
 
 jobs:
