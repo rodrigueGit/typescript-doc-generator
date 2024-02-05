@@ -1,6 +1,6 @@
 services:
   - name: "Service A"
-    description: "Description of Service A"
+    description: "Description of Service A with additions"
     environments:
       - name: "Development"
         description: "Development environment for Service A"
