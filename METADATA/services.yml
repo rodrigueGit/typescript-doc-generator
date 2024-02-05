@@ -1,6 +1,6 @@
 services:
   - name: "Service A"
-    description: "Description of Service A with additions new test"
+    description: "Description of Service A with additions after new actions setup"
     environments:
       - name: "Development"
         description: "Development environment for Service A"
