@@ -4,3 +4,5 @@ services:
     environments:
       - name: "Development"
         description: "Development environment for Service A"
+      - name: "Test"
+        description: "Test environment for Service A"
