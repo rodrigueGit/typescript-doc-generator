@@ -6,3 +6,5 @@ services:
         description: "Development environment for Service A"
       - name: "Test"
         description: "Test environment for Service A"
+      - name: "Prod"
+        description: "Prod environment for Service A"
