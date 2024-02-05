@@ -3,8 +3,14 @@ name: Generate and Deploy Documentation
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'METADATA/**'
+      - 'TEMPLATES/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'METADATA/**'
+      - 'TEMPLATES/**'
 
 
 jobs:
