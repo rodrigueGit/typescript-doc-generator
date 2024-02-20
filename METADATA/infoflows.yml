@@ -1,0 +1,94 @@
+infoflows:
+  component:  VisecaOne SA
+  inbound:
+    sources:
+      - VisecaOne Push Notification Consumer
+      - VisecaOne AUTH API
+      - VisecaOne Base Service
+    flows:
+    - source: VisecaOne Push Notification Consumer
+      target: VisecaOne SA
+      description: ONE notification processing
+      protocol: HTTPS
+      format: JSON
+      frequency: realtime
+      direction: bi-directional
+      interfaces:
+        - operation: SendPushByCardHolderID
+          description: Send the different push types over cardholder ID
+          object: notification
+          request: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/650b97077ede6f2c329e242e6c27ffa80cd048b4/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendPushByCardHolderIDRequest.cs"
+          response: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/650b97077ede6f2c329e242e6c27ffa80cd048b4/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendPushByVisecaOneIDResponse.cs"
+        - operation: SendPushByVisecaOneID
+          description: Send the different push types over cardholder ID
+          object: notification
+          request: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/develop/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendPushByVisecaOneIDRequest.cs"
+          response: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/develop/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendPushByVisecaOneIDResponse.cs"
+        - operation: SendSMSVisecaOneID
+          description: Send the different push types over cardholder ID
+          object: notification
+          request: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/develop/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendSMSByVisecaOneIDRequest.cs"
+          response: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/develop/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendSMSByVisecaOneIDResponse.cs"
+        - operation: SendSMS
+          description: Send the different push types over phone number
+          object: notification
+          request: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/develop/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendSMSRequest.cs"
+          response: "https://github.adgr.net/VisecaOne/StrongAuthentication.Wcf/blob/develop/src/AG.Services.VisecaOne.SA.Service.Interfaces/Messages/SendSMSResponse.cs" 
+    - source: VisecaOne Push Notification Consumer
+      target: VisecaOne SA
+      description: ONE authentication request processing
+      protocol: HTTPS
+      format: JSON
+      frequency: realtime
+      direction: bi-directional
+      objects:
+        - authentication
+    - source: VisecaOne AUTH API
+      target: VisecaOne SA
+      description: Second factor authentication
+      protocol: HTTPS
+      format: JSON
+      frequency: realtime
+      direction: bi-directional
+      objects:
+        - authentication
+    - source: VisecaOne Base Service
+      target: VisecaOne SA
+      description: Channel management
+      protocol: HTTPS
+      format: JSON
+      frequency: realtime
+      direction: bi-directional
+      objects:
+        - channel
+  outbound:
+    targets:
+      - RabbitMQ VisecaOne.Authentication.v1 Exchange
+      - RabbitMQ VisecaOne.Channel.v1 Exchange
+      - RabbitMQ VisecaOne.Sms.v1 Exchange
+      - RabbitMQ VisecaOne.MailMessage Queue
+      - Futurae API
+    flows:
+      - source: VisecaOne SA
+        target: RabbitMQ VisecaOne.Authentication.v1 Exchange
+        description: Notify authentication events
+        protocol: AMQP
+        format: JSON
+        frequency: realtime
+        direction: outgoing
+        interfaces:
+          - operation: Authenticate.DynAuthInitialize
+            description: dynAuth initialization
+            object: DynAuthInitialize
+            request: "https://github.adgr.net/VisecaOne/..."
+          - operation: FingerPrintActivateMessage
+            description: Fingerprint Activation
+            object: FingerprintAuthActivateMessage
+            request: "https://github.adgr.net/VisecaOne/..."
+      - source: VisecaOne SA
+        target: RabbitMQ VisecaOne.Channel.v1 Exchange
+        description: Notify channel events
+        protocol: AMQP
+        format: JSON
+        frequency: realtime
+        direction: outgoing

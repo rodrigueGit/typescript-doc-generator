@@ -1,0 +1,29 @@
+C4Component
+title Information Flow diagram
+
+Container_Boundary(component, Component) {
+{{#each infoflows.inbound.flows}}
+    Component({{this.target}}, {{this.target}}, , )
+{{/each}}
+{{#each infoflows.outboud.flows}}
+    Component({{this.source}}, {{this.source}}, , )
+{{/each}}
+}
+
+Container_Boundary(inbound, Inbound information flows) {
+{{#each infoflows.inbound.flows}}
+    Component({{this.source}}, {{this.source}}, , )
+{{/each}}
+{{#each infoflows.inbound.flows}}
+    Rel({{this.source}}, {{this.target}}, {{this.frequency}}, {{this.format}}/{{this.protocol}})
+{{/each}}
+}
+
+Container_Boundary(outbound, Outbound information flows) {
+{{#each infoflows.outbound.flows}}
+    Component({{this.target}}, {{this.target}}, , )
+{{/each}}
+{{#each infoflows.outbound.flows}}
+    Rel({{this.source}}, {{this.target}}, {{this.frequency}}, {{this.format}}/{{this.protocol}})
+{{/each}}
+}

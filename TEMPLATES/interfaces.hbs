@@ -1,0 +1,19 @@
+# Interfaces for {{infoflows.component}}
+
+## Interfaces overview
+
+```mermaid
+{{> mermaid}}
+```
+
+## Interface list
+
+| Source       | Target       |  Description    | Protocol      | Format       | Frequency     | Direction     |
+|--------------|--------------|-----------------|---------------|--------------|---------------|---------------|
+{{#each infoflows.inbound.flows}}
+     | {{this.source}} | {{this.target}} | {{this.description}} | {{this.protocol}} | {{this.format}} | {{this.frequency}} | {{this.direction}} |
+{{/each}}
+{{#each infoflows.outbound.flows}}
+    | {{this.source}} | {{this.target}} | {{this.description}} | {{this.protocol}} | {{this.format}} | {{this.frequency}} | {{this.direction}} |
+{{/each}}
+
